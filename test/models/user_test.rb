@@ -65,4 +65,11 @@ class UserTest < ActiveSupport::TestCase
     @user.password = @user.password_confirmation = "a" * 5
     assert_not @user.valid?
   end
+
+  test "email addresses should be saved as lower-case" do
+    funky_email = "FoOBar@foo.cOM"
+    @user.email = funky_email
+    @user.save
+    assert_equal funky_email.downcase, @user.reload.email
+  end
 end
